@@ -1,14 +1,36 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% for post in posts %}
-        <article class="post">
-            <time class="date">
-                {{ post.published_date }}
-            </time>
-            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+{% for post in posts %}
+<article class="post">
+    <time class="date">
+        {{ post.published_date }}
+    </time>
+    <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
 
-            <p>{{ post.text|linebreaksbr }}</p>
-        </article>
-    {% endfor %}
+    <!-- Truncated Content (Initial Display) -->
+    <p id="short-content-{{ post.id }}">
+        {{ post.text|truncatewords:20|linebreaksbr }}...
+        <a href="javascript:void(0);" onclick="showFullContent('{{ post.id }}')">Read More</a>
+    </p>
+
+    <!-- Full Content (Hidden Initially) -->
+    <p id="full-content-{{ post.id }}" style="display: none;">
+        {{ post.text|linebreaksbr }}
+        <a href="javascript:void(0);" onclick="showShortContent('{{ post.id }}')">Show Less</a>
+    </p>
+</article>
+{% endfor %}
+<script>
+    function showFullContent(postId) {
+        document.getElementById('short-content-' + postId).style.display = 'none';
+        document.getElementById('full-content-' + postId).style.display = 'block';
+    }
+
+    function showShortContent(postId) {
+        document.getElementById('full-content-' + postId).style.display = 'none';
+        document.getElementById('short-content-' + postId).style.display = 'block';
+    }
+</script>
+
 {% endblock %}
