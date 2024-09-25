@@ -10,7 +10,7 @@
 
     <!-- Truncated Content (Initial Display) -->
     <p id="short-content-{{ post.id }}">
-        {{ post.text|truncatewords:20|linebreaksbr }}...
+        {{ post.text|truncatewords:20|linebreaksbr }}
         <a href="javascript:void(0);" onclick="showFullContent('{{ post.id }}')">Read More</a>
     </p>
 
